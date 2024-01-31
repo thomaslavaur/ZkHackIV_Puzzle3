@@ -119,7 +119,20 @@ pub fn main() {
 
     /* Implement your attack here, to find the index of the encrypted message */
 
-    unimplemented!();
+    let hash = blob.c.hash_to_curve();
+    for i in 0..10 {
+        let a = Bls12_381::pairing(messages[i].0, hash);
+
+        let b = Bls12_381::pairing(blob.c.1, hash);
+
+        let c = Bls12_381::pairing(blob.rec_pk, -blob.s);
+
+        if a == b+c {
+            println!("The encrypted message index is {}",i);
+        }
+    }
+
+    //unimplemented!();
 
     /* End of attack */
 }
